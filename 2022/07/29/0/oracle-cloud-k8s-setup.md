@@ -4,7 +4,7 @@
 - 200 GB of Always Free block volume
 - 0 NAT gateways
 
-## limitations
+## Limitations
 - Because NAT gateways are not free, you can't access public internet when your instance is in private VCN
 - Minimum boot volume size is 50GB, so you can only create 4 instances regardless of the shape
 - OKE(Oracle Kubernetes Engine) is not free, so you can't use oracle's load balancer in free-tier (alternatively, you can use metallb instead)
@@ -47,16 +47,16 @@ helm repo update
 ```
 
   
-## Troubleshooting
+## Troubleshootings
 Q: Unable to access public internet from private network instances
 A:
   No solution if you are in free tier
   https://docs.oracle.com/en/learn/nat_gateway_private_compute_instance/index.html#configure-the-nat-gateway
   https://community.oracle.com/tech/apps-infra/discussion/4493649/unable-to-create-a-nat-gateway
 
-## ref
-https://medium.com/geekculture/how-to-create-an-always-free-k8s-cluster-in-oracle-cloud-60be3b107c44
-https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm
-https://loganmarchione.com/2022/03/k3s-single-node-cluster-for-noobs/
-https://si.mpli.st/dev/2020-01-01-easy-k8s-with-k3s/
-https://gruuuuu.github.io/cloud/l-helm-basic/
+## References
+- https://medium.com/geekculture/how-to-create-an-always-free-k8s-cluster-in-oracle-cloud-60be3b107c44
+- https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm
+- https://loganmarchione.com/2022/03/k3s-single-node-cluster-for-noobs/
+- https://si.mpli.st/dev/2020-01-01-easy-k8s-with-k3s/
+- https://gruuuuu.github.io/cloud/l-helm-basic/
