@@ -50,8 +50,8 @@ helm repo update
 ## Troubleshootings
 - Q: Unable to access public internet from private network instances
 - A: No solution as long as you are in free tier
-  https://docs.oracle.com/en/learn/nat_gateway_private_compute_instance/index.html#configure-the-nat-gateway
-  https://community.oracle.com/tech/apps-infra/discussion/4493649/unable-to-create-a-nat-gateway
+- https://docs.oracle.com/en/learn/nat_gateway_private_compute_instance/index.html#configure-the-nat-gateway
+- https://community.oracle.com/tech/apps-infra/discussion/4493649/unable-to-create-a-nat-gateway
 
 ## References
 - https://medium.com/geekculture/how-to-create-an-always-free-k8s-cluster-in-oracle-cloud-60be3b107c44
