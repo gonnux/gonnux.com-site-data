@@ -13,7 +13,6 @@
 - create only one instance with maximum resources
 - use k3s for simplicity and performance (it also has it's own loadbalancer and ingress)
 
-
 ## instances
 master-1:
   - Shape: VM.Standard.A1.Flex
@@ -31,21 +30,16 @@ curl -sfL https://get.k3s.io | sh -
 ## k3s ingress setup
 https://www.virtualizationhowto.com/2022/05/traefik-ingress-example-yaml-and-setup-in-k3s/
 
-
 ## https setup
 use cloudflare
-
 
 ## helm setup (optional)
 ```console
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config
-sudo chmod 600 $HOME/.kube/config
-sudo chown ubuntu $HOME/.kube/config
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 helm repo add stable https://charts.helm.sh/stable
 helm repo update
 ```
-
   
 ## Troubleshootings
 - Q: Unable to access public internet from private network instances
@@ -59,3 +53,4 @@ helm repo update
 - https://loganmarchione.com/2022/03/k3s-single-node-cluster-for-noobs/
 - https://si.mpli.st/dev/2020-01-01-easy-k8s-with-k3s/
 - https://gruuuuu.github.io/cloud/l-helm-basic/
+- https://pet2cattle.com/2022/07/install-helm-k3s
