@@ -4,12 +4,12 @@ WORKDIR /srv
 COPY ./gonnux.com-site/ /srv
 COPY ./config.yaml /srv
 COPY ./blog /srv/blog
-RUN npm install
+RUN yarn install
 
 FROM node:alpine AS builder
 WORKDIR /srv
 COPY --from=deps /srv .
-RUN npm run build
+RUN yarn run build
 
 FROM node:alpine AS runner
 RUN addgroup -g 1001 -S nodejs
@@ -19,4 +19,4 @@ COPY --from=builder /srv/node_modules ./node_modules
 COPY --from=builder /srv/package.json ./package.json
 USER nextjs
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["yarn", "run", "start"]
