@@ -62,3 +62,4 @@ kubectl rollout restart deployment <deployment name>
 - https://www.suse.com/c/rancher_blog/continuous-delivery-pipeline-with-webhooks/
 - https://keel.sh/docs/
 - https://fluxcd.io/docs/guides/image-update/
+- https://k3s.rocks/
