@@ -1,11 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx
+  name: site-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: site-cluster-issuer
 spec:
   rules:
     - http:
@@ -14,10 +14,10 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: web-home-svc
+              name: site-service
               port:
                 number: 80
   tls:
-    - secretName: letsencrypt-prod
+    - secretName: site-secret
       hosts:
         - gonnux.com
