@@ -31,7 +31,7 @@ curl -sfL https://get.k3s.io | sh -
 https://www.virtualizationhowto.com/2022/05/traefik-ingress-example-yaml-and-setup-in-k3s/
 
 ## https setup
-use cloudflare
+https://k3s.rocks/https-cert-manager-letsencrypt/
 
 ## helm setup (optional)
 ```console
