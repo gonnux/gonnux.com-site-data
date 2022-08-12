@@ -8,15 +8,16 @@ metadata:
     cert-manager.io/cluster-issuer: site-cluster-issuer
 spec:
   rules:
-    - http:
+    - host: gonnux.com
+      http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: site-service
-              port:
-                number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: site-service
+                port:
+                  number: 80
   tls:
     - secretName: site-secret
       hosts:
