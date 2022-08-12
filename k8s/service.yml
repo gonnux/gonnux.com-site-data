@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-home-svc
+  labels:
+    svc: web-home
+spec:
+  selector:
+    pod: web-home
+  ports:
+  - port: 80
+    targetPort: 3000
+
