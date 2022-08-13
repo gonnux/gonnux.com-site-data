@@ -40,7 +40,13 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 helm repo add stable https://charts.helm.sh/stable
 helm repo update
 ```
-  
+
+## Add new worker node to the cluster
+https://pet2cattle.com/2021/04/k3s-join-nodes
+
+## Multi-master cluster
+https://sysadmins.co.za/3-node-multimaster-k3s-kubernetes-cluster-with-mysql/
+
 ## Troubleshootings
 - Q: Unable to access public internet from private network instances
 - A: No solution as long as you are in free tier
