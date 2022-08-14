@@ -6,3 +6,4 @@ https://www.reddit.com/r/WireGuard/comments/lsccq8/link_2_separate_networks_usin
 https://github.com/mjtechguy/wireguard-site-to-site
 https://www.procustodibus.com/blog/2020/12/wireguard-site-to-site-config/
 https://ziwon.github.io/post/wireguard/
+https://www.reddit.com/r/WireGuard/comments/fo6czc/wireguard_service_wont_start_on_ubuntu_after/
