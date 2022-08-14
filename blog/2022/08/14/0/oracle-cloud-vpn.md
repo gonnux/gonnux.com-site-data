@@ -3,3 +3,6 @@ https://learnoci.cloud/how-to-create-a-site-to-site-vpn-between-oracle-cloud-inf
 
 https://serverfault.com/questions/1076995/routing-only-the-private-network-in-wireguard-vpn
 https://www.reddit.com/r/WireGuard/comments/lsccq8/link_2_separate_networks_using_wireguard_and_linux/
+https://github.com/mjtechguy/wireguard-site-to-site
+https://www.procustodibus.com/blog/2020/12/wireguard-site-to-site-config/
+https://ziwon.github.io/post/wireguard/
