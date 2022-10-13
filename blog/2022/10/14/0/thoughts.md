@@ -1,0 +1,3 @@
+- inheritance와 generics간의 적절한 사용. <T extends A>를 쓰느냐 그냥 A만을 멤버변수 / 파라미터로 쓰느냐에 대한 고민
+- API서버 request / response 에서의 다형성.. 써보면 편할 것 같지만 생각보다 코드가 더 복잡해진다, API 서버에서의 다형성이 바람직한가? 만약 그렇다면 항상 바람직한가? 이로 인해 생기게되는 switch/case를 최소화 하거나 피할 방법은?
+- ID의 데이터 타입으로써 Long vs Int (개인적으로는 Long 선호)
