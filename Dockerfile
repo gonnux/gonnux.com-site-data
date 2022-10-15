@@ -4,12 +4,12 @@ WORKDIR /srv
 COPY ./gonnux.com-site/ /srv
 COPY ./config.yaml /srv
 COPY ./blog /srv/blog
-RUN yarn install
+RUN yarn install --verbose
 
 FROM node:alpine AS builder
 WORKDIR /srv
 COPY --from=deps /srv .
-RUN yarn run build
+RUN yarn run --verbose build
 
 FROM node:alpine AS runner
 RUN addgroup -g 1001 -S nodejs
