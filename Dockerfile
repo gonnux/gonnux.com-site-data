@@ -1,14 +1,10 @@
-FROM node:alpine as deps
+FROM node:alpine as builder
 RUN apk add --no-cache libc6-compat git tree
 WORKDIR /srv
 COPY ./gonnux.com-site/ /srv
 COPY ./config.yaml /srv
 COPY ./blog /srv/blog
 RUN yarn install --verbose
-
-FROM node:alpine AS builder
-WORKDIR /srv
-COPY --from=deps /srv .
 RUN yarn run --verbose build
 
 FROM node:alpine AS runner
