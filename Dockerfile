@@ -5,7 +5,7 @@ COPY ./gonnux.com-site/ /srv
 COPY ./config.yaml /srv
 COPY ./blog /srv/blog
 RUN yarn install --verbose
-RUN yarn run --verbose build
+RUN NEXT_PUBLIC_GIT_COMMIT_HASH=$(git rev-parse --verify HEAD) NEXT_PUBLIC_GITHUB_REMOTE_URL=$(git remote get-url origin) NEXT_PUBLIC_GIT_BRANCH=$(git branch --show-current) yarn run --verbose build
 
 FROM node:alpine AS runner
 RUN addgroup -g 1001 -S nodejs
