@@ -6,7 +6,7 @@ RUN yarn install --verbose
 RUN \
   NEXT_PUBLIC_GIT_COMMIT_HASH=$(git rev-parse --verify HEAD) \
   NEXT_PUBLIC_GITHUB_REMOTE_URL=$(git remote get-url origin) \
-  NEXT_PUBLIC_GIT_BRANCH=$(git branch --show-current) \
+  NEXT_PUBLIC_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) \
   CONFIG_YAML=/srv/config.yaml \
   BLOG_DIR=/srv/blog \
   yarn run --verbose build
