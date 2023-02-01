@@ -60,3 +60,4 @@ https://sysadmins.co.za/3-node-multimaster-k3s-kubernetes-cluster-with-mysql/
 - https://si.mpli.st/dev/2020-01-01-easy-k8s-with-k3s/
 - https://gruuuuu.github.io/cloud/l-helm-basic/
 - https://pet2cattle.com/2022/07/install-helm-k3s
+- https://pgillich.medium.com/setup-lightweight-kubernetes-with-k3s-6a1c57d62217
