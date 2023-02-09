@@ -188,22 +188,65 @@ https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/boot-featur
 SpringBootConfiguration을 찾으려고 하는 것을 알수 있다.
 
 ## 해결책
-결국 해결책은 classes를 명시하거나
-test 디렉토리에 SpringBootApplication 혹은 SpringBootConfiguration을 추가해야한다 (개인적으로 SpringBootApplication 보다는 SpringBootConfiguration가 더 적절하다고 생각)
+결국 해결책은
+- @SpringBootTest(classes=...)를 명시하거나
+- test 디렉토리에 SpringBootApplication 혹은 SpringBootConfiguration을 추가 (개인적으로 SpringBootApplication 보다는 SpringBootConfiguration가 더 적절하다고 생각)
+
 main도 가능하긴 하지만 현재 프로젝트가 라이브러리인이상 적절하지 않은 방법이다
 
+## 검증
+### 테스트 코드
 ```kotlin
-@SpringBootApplication
-class MainApplication
+class DemoApplicationTests(
+    private val ctx: ApplicationContext
+) {
 
-fun main(args: Array<String>) {
-    runApplication<MainApplication>(*args)
+    @Test
+    fun contextLoads() {
+        println("---------------------------")
+        ctx.getBeanDefinitionNames().forEach {
+            println(it)
+        }
+        println("---------------------------")
+    }
+
 }
 ```
+
+### @SpringBootTest(classes = [MyConfig::class])
+MyConfig는 @Configuration
+```kotlin
+@SpringBootTest(classes = [MyConfig::class])
+```
+
+### @SpringBootTest(classes = [MyTestConfig::class])
+MyConfig는 @TestConfiguration
+```kotlin
+@SpringBootTest(classes = [MyTestConfig::class])
+```
+
+이 경우에는 바로 이렇게 사용하면 에러가 난다
+> Unlike regular @Configuration classes the use of @TestConfiguration does not prevent auto-detection of @SpringBootConfiguration
+@TestConfiguration의 경우에는 여전히 @SpringBootConfiguration이 존재해야한다
+
+### @SpringBootTest, @SpringBootApplication
+```kotlin
+@SpringBootApplication
+class DemoApplication
+
+fun main(args: Array<String>) {
+    runApplication<DemoApplication>(*args)
+}
+```
+
+### @SpringBootTest, @SpringBootConfiguration
 ```kotlin
 @SpringBootConfiguration
-class TestSpringBootConfiguration
+class DemoConfiguration
 ```
+
+
+
 
 
 
