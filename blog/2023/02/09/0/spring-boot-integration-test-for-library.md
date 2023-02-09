@@ -227,6 +227,7 @@ MyConfig는 @TestConfiguration
 
 이 경우에는 바로 이렇게 사용하면 에러가 난다
 > Unlike regular @Configuration classes the use of @TestConfiguration does not prevent auto-detection of @SpringBootConfiguration
+
 @TestConfiguration의 경우에는 여전히 @SpringBootConfiguration이 존재해야한다
 
 ### @SpringBootTest, @SpringBootApplication
