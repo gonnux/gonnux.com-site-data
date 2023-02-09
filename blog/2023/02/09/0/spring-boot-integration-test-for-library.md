@@ -1,5 +1,5 @@
 # 스프링 부트 기반 라이브러리에서의 통합 테스트(작성중)
-## @SpringBootTest
+## 라이브러리에서의 @SpringBootTest 
 라이브러리는 기본적으로 @SpringBootApplication가 붙은 클래스가 없다<br/>
 그 상태에서 통합테스트를 작성 시 에러가 발생한다
 ```kotlin
@@ -111,13 +111,65 @@ java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you 
 > Registers a TestRestTemplate and/or WebTestClient bean for use in web tests that are using a fully running web server.
 
 여기서 중요한 부분은
-- @ContextConfiguration(loader=...)가 명시되어있지 않은 경우 SpringBootContextLoader를 사용한다
 - @SpringBootTest(classes=...)가 명시되어 있지 않거나 nested @Configuration이 없는 경우 @SpringBootConfiguration을 찾는다
 
-그렇다면 스캔은 어떤 순서대로 이루어질까<br/>
+바로 이부분이 에러의 원인이다
+해결책을 알기 앞서 @SpringBootTest에 대해 차근차근 이해해보자
+
+## @ExtendWith(SpringExtension.class)
+
+> @ExtendWith is a repeatable annotation that is used to register extensions for the annotated test class, test interface, test method, parameter, or field.  
+> Annotated parameters are supported in test class constructors, in test methods, and in @BeforeAll, @AfterAll, @BeforeEach, and > @AfterEach lifecycle methods.
+> @ExtendWith fields may be either static or non-static.
+```java
+	@Override
+	public void beforeAll(ExtensionContext context) throws Exception {
+		getTestContextManager(context).beforeTestClass();
+	}
+
+	/**
+	 * Delegates to {@link TestContextManager#afterTestClass}.
+	 */
+	@Override
+	public void afterAll(ExtensionContext context) throws Exception {
+		try {
+			getTestContextManager(context).afterTestClass();
+		}
+		finally {
+			getStore(context).remove(context.getRequiredTestClass());
+		}
+	}
+
+	/**
+	 * Delegates to {@link TestContextManager#prepareTestInstance}.
+	 * <p>As of Spring Framework 5.3.2, this method also validates that test
+	 * methods and test lifecycle methods are not annotated with
+	 * {@link Autowired @Autowired}.
+	 */
+	@Override
+	public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+		validateAutowiredConfig(context);
+		getTestContextManager(context).prepareTestInstance(testInstance);
+	}
+```
+
+## @SpringBootTest(classes=...)와 @ContextConfiguration, 그리고 스캔 순서
+@SpringBootTest(classes=...)는 @ContextConfiguration(classes=...)와 동일한 동작을 한다
+
+> The component classes to use for loading an ApplicationContext. Can also be specified using @ContextConfiguration(classes=...). If no explicit classes are defined the test will look for nested @Configuration classes, before falling back to a @SpringBootConfiguration search.
+
+ApplicationContext를 로딩할 때 사용되는 컴포넌트(빈)들의 클래스들을 명시해줄 수 있다
+classes가 정의되면 해당되는 클래스들만 로딩하고 그렇지 않으면 nested @Configuration, @SpringBootConfiguration 순으로 스캔한다
+
 https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/boot-features-testing.html
+> If you are familiar with the Spring Test Framework, you may be used to using @ContextConfiguration(classes=…​) in order to specify which Spring @Configuration to load. Alternatively, you might have often used nested @Configuration classes within your test.  
+> When testing Spring Boot applications, this is often not required. Spring Boot’s @*Test annotations search for your primary configuration automatically whenever you do not explicitly define one.  
 > The search algorithm works up from the package that contains the test until it finds a class annotated with @SpringBootApplication or @SpringBootConfiguration. As long as you structured your code in a sensible way, your main configuration is usually found.
-요약하자면 현재 테스트 클래스의 패키지부터 @SpringBootConfiguration 이나 @SpringBootApplication (내부적으로 @SpringBootConfiguration 사용)를 찾을때까지 위로 올라가면서 스캔을 한다
+ 
+요약하자면
+1. @SpringBootTest(classes=...)가 명시되어있는 경우 classes에 명시된 클래스의 컴포넌트들만 로딩
+2. 명시되어있지 않으면 테스트 클래스의 패키지부터 @SpringBootConfiguration 이나 @SpringBootApplication (내부적으로 @SpringBootConfiguration 사용)을 찾을때까지 위로 올라가면서 스캔
+
 앞에서 언급했던 exception이 최종적으로 발생하는 곳을 보면 (SpringBootTextContextBootstrapper) 다음과 같은데
 ```java
 	protected Class<?>[] getOrFindConfigurationClasses(MergedContextConfiguration mergedConfig) {
@@ -134,8 +186,10 @@ https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/boot-featur
 	}
 ```
 SpringBootConfiguration을 찾으려고 하는 것을 알수 있다.
-이를 해결하려면 test 디렉토리에 SpringBootApplication 혹은 SpringBootConfiguration을 추가해야한다
-(개인적으로 SpringBootConfiguration가 더 적절하다고 생각)
+
+## 해결책
+결국 해결책은 classes를 명시하거나
+test 디렉토리에 SpringBootApplication 혹은 SpringBootConfiguration을 추가해야한다 (개인적으로 SpringBootApplication 보다는 SpringBootConfiguration가 더 적절하다고 생각)
 main도 가능하긴 하지만 현재 프로젝트가 라이브러리인이상 적절하지 않은 방법이다
 
 ```kotlin
@@ -149,5 +203,8 @@ fun main(args: Array<String>) {
 ```kotlin
 @SpringBootConfiguration
 class TestSpringBootConfiguration
-
 ```
+
+
+
+
