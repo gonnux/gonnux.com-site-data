@@ -262,9 +262,31 @@ fun main(args: Array<String>) {
 class DemoConfiguration
 ```
 
-
-
-
-
-
-
+## ComponentScan
+```kotlin
+@ComponentScan(basePackages = ["com.example.demo"])
+@TestConfiguration
+class MyTestConfig() {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
+이 경우에는 같은 빈을 생성하는 Configuration이 존재하면 에러가 난다
+spring.main.allow-bean-definition-overriding=true 를 설정해야한다
+```console
+   ***************************                                                                                         
+    APPLICATION FAILED TO START                                                                                         
+    ***************************                                                                                         
+                                                                                                                        
+    Description:                                                                                                        
+                                                                                                                        
+    The bean 'myBean', defined in com.example.demo.MyTestConfig, could not be registered. A bean with that name has alre
+ady been defined in class path resource [com/example/demo/MyConfig.class] and overriding is disabled.                   
+                                                                                                                        
+    Action:                                                                                                             
+                                                                                                                        
+    Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=tr
+ue
+```
