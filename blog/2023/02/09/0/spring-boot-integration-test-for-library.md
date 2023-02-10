@@ -311,3 +311,7 @@ ue
 ## @SpringBootTest(classes=...) vs @Import
 전자는 명시된 클래스들만 로딩하고(디폴트 동작 해제) 후자는 명시된 클래스를 추가로 로딩한다
 https://stackoverflow.com/a/63189217/2810413
+
+## @SpringBootTest vs @SpringJunitConfig
+
+
