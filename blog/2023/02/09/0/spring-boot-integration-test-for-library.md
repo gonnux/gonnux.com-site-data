@@ -212,15 +212,31 @@ class DemoApplicationTests(
 
 }
 ```
+```kotlin
+@Configuration
+class MyConfig {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
+```kotlin
+@TestConfiguration
+class MyTestConfig {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
 
 ### @SpringBootTest(classes = [MyConfig::class])
-MyConfig는 @Configuration
 ```kotlin
 @SpringBootTest(classes = [MyConfig::class])
 ```
 
 ### @SpringBootTest(classes = [MyTestConfig::class])
-MyConfig는 @TestConfiguration
 ```kotlin
 @SpringBootTest(classes = [MyTestConfig::class])
 ```
