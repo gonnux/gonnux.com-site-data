@@ -261,8 +261,25 @@ fun main(args: Array<String>) {
 @SpringBootConfiguration
 class DemoConfiguration
 ```
+## Dependencies for Configurations
+@Configuration 혹은 @TestConfiguration에 의존성을 추가하고 싶을 때가 있다
+```kotlin
+@TestConfiguration
+class MyTestConfig(private val myComponent: MyComponent) {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
 
-## ComponentScan
+ComponentScan이 되지 않을 경우 에러가 난다
+```console
+    Parameter 0 of constructor in com.example.demo.MyTestConfig required a bean of type 'com.example.demo.MyComponent' t
+hat could not be found.                                                                                                 
+```
+
+## @ComponentScan
 ```kotlin
 @ComponentScan(basePackages = ["com.example.demo"])
 @TestConfiguration
@@ -273,7 +290,7 @@ class MyTestConfig() {
     }
 }
 ```
-이 경우에는 같은 빈을 생성하는 Configuration이 존재하면 에러가 난다
+이 경우에는 같은 빈을 생성하는 Configuration이 존재하면 에러가 난다  
 spring.main.allow-bean-definition-overriding=true 를 설정해야한다
 ```console
    ***************************                                                                                         
