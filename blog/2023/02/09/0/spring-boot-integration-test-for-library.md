@@ -159,7 +159,7 @@ java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you 
 > The component classes to use for loading an ApplicationContext. Can also be specified using @ContextConfiguration(classes=...). If no explicit classes are defined the test will look for nested @Configuration classes, before falling back to a @SpringBootConfiguration search.
 
 ApplicationContext를 로딩할 때 사용되는 컴포넌트(빈)들의 클래스들을 명시해줄 수 있다
-classes가 정의되면 해당되는 클래스들만 로딩하고 그렇지 않으면 nested @Configuration, @SpringBootConfiguration 순으로 스캔한다
+classes가 정의되면 **해당되는 클래스들만** 로딩하고 그렇지 않으면 nested @Configuration, @SpringBootConfiguration 순으로 스캔한다
 
 https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/boot-features-testing.html
 > If you are familiar with the Spring Test Framework, you may be used to using @ContextConfiguration(classes=…​) in order to specify which Spring @Configuration to load. Alternatively, you might have often used nested @Configuration classes within your test.  
@@ -204,7 +204,7 @@ class DemoApplicationTests(
     @Test
     fun contextLoads() {
         println("---------------------------")
-        ctx.getBeanDefinitionNames().forEach {
+        ctx.beanDefinitionNames.forEach {
             println(it)
         }
         println("---------------------------")
@@ -212,15 +212,31 @@ class DemoApplicationTests(
 
 }
 ```
+```kotlin
+@Configuration
+class MyConfig {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
+```kotlin
+@TestConfiguration
+class MyTestConfig {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
 
 ### @SpringBootTest(classes = [MyConfig::class])
-MyConfig는 @Configuration
 ```kotlin
 @SpringBootTest(classes = [MyConfig::class])
 ```
 
 ### @SpringBootTest(classes = [MyTestConfig::class])
-MyConfig는 @TestConfiguration
 ```kotlin
 @SpringBootTest(classes = [MyTestConfig::class])
 ```
@@ -245,10 +261,58 @@ fun main(args: Array<String>) {
 @SpringBootConfiguration
 class DemoConfiguration
 ```
+## Dependencies for Configurations
+@Configuration 혹은 @TestConfiguration에 의존성을 추가하고 싶을 때가 있다
+```kotlin
+@TestConfiguration
+class MyTestConfig(private val myComponent: MyComponent) {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
 
+ComponentScan이 되지 않을 경우 에러가 난다
+```console
+    Parameter 0 of constructor in com.example.demo.MyTestConfig required a bean of type 'com.example.demo.MyComponent' t
+hat could not be found.                                                                                                 
+```
 
+## @ComponentScan
+```kotlin
+@ComponentScan(basePackages = ["com.example.demo"])
+@TestConfiguration
+class MyTestConfig() {
+    @Bean
+    fun myBean(): MyBean {
+        return MyBean()
+    }
+}
+```
+이 경우에는 같은 빈을 생성하는 Configuration이 존재하면 에러가 난다  
+spring.main.allow-bean-definition-overriding=true 를 설정해야한다
+```console
+   ***************************                                                                                         
+    APPLICATION FAILED TO START                                                                                         
+    ***************************                                                                                         
+                                                                                                                        
+    Description:                                                                                                        
+                                                                                                                        
+    The bean 'myBean', defined in com.example.demo.MyTestConfig, could not be registered. A bean with that name has alre
+ady been defined in class path resource [com/example/demo/MyConfig.class] and overriding is disabled.                   
+                                                                                                                        
+    Action:                                                                                                             
+                                                                                                                        
+    Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=tr
+ue
+```
 
+## @SpringBootTest(classes=...) vs @Import
+전자는 명시된 클래스들만 로딩하고(디폴트 동작 해제) 후자는 명시된 클래스를 추가로 로딩한다
+https://stackoverflow.com/a/63189217/2810413
 
-
-
+## @SpringBootTest vs @SpringJunitConfig
+https://github.com/thoqbk/spring-testing/blob/main/README.md  
+https://bistros.tistory.com/entry/springboot-junit5-enableconfigurationproperties
 
