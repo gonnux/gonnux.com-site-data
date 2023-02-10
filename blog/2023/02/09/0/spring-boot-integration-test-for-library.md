@@ -159,7 +159,7 @@ java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you 
 > The component classes to use for loading an ApplicationContext. Can also be specified using @ContextConfiguration(classes=...). If no explicit classes are defined the test will look for nested @Configuration classes, before falling back to a @SpringBootConfiguration search.
 
 ApplicationContext를 로딩할 때 사용되는 컴포넌트(빈)들의 클래스들을 명시해줄 수 있다
-classes가 정의되면 해당되는 클래스들만 로딩하고 그렇지 않으면 nested @Configuration, @SpringBootConfiguration 순으로 스캔한다
+classes가 정의되면 **해당되는 클래스들만** 로딩하고 그렇지 않으면 nested @Configuration, @SpringBootConfiguration 순으로 스캔한다
 
 https://docs.spring.io/spring-boot/docs/2.1.5.RELEASE/reference/html/boot-features-testing.html
 > If you are familiar with the Spring Test Framework, you may be used to using @ContextConfiguration(classes=…​) in order to specify which Spring @Configuration to load. Alternatively, you might have often used nested @Configuration classes within your test.  
@@ -307,3 +307,7 @@ ady been defined in class path resource [com/example/demo/MyConfig.class] and ov
     Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=tr
 ue
 ```
+
+## @SpringBootTest(classes=...) vs @Import
+전자는 명시된 클래스들만 로딩하고(디폴트 동작 해제) 후자는 명시된 클래스를 추가로 로딩한다
+https://stackoverflow.com/a/63189217/2810413
