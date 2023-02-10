@@ -204,7 +204,7 @@ class DemoApplicationTests(
     @Test
     fun contextLoads() {
         println("---------------------------")
-        ctx.getBeanDefinitionNames().forEach {
+        ctx.beanDefinitionNames.forEach {
             println(it)
         }
         println("---------------------------")
