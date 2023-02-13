@@ -320,7 +320,7 @@ https://bistros.tistory.com/entry/springboot-junit5-enableconfigurationpropertie
 
 > Unlike @SpringJUnitConfig, @SpringBootTest, by default, starts the whole application context the same as when you run your Spring Boot application. With this annotation, Spring will search for a class with @SpringBootConfiguration and use it as the primary configuration to create ApplicationContext. It also does the auto-configuration for TestRestTemplate which we can wire into the test class and use to call APIs
 
-@SpringBootTest도 classes를 지정하면 특정 빈들만 로딩하려고 하지만 앞서 언급한바와 같이 기본 동작은  @SpringBootConfiguration을 찾아 full context를 로딩하려고 한다. 추가적으로 TestRestTemplate를 autoconfigure 해주는 등의 부가 작업도 수행한다
+@SpringBootTest도 classes를 지정하면 특정 빈들만 로딩하려고 하지만 앞서 언급한바와 같이 기본 동작은 @SpringBootConfiguration을 찾아 full context를 로딩하려고 한다. 추가적으로 TestRestTemplate를 autoconfigure 해주는 등의 부가 작업도 수행한다  
 부가 작업들은 [공식문서](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)에 잘 나와있다
 
 
