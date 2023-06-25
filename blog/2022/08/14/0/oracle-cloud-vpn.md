@@ -78,6 +78,7 @@ $IPT -D INPUT -i $IN_FACE -p udp --dport $WG_PORT -j ACCEPT
 ```
 
 Worker1 node /etc/wireguard/wg0.conf
+
 ```
 [Interface]
 PrivateKey = <WORKER1 NODE PRIVATE KEY>
