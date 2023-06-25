@@ -6,7 +6,7 @@ $ wg pubkey < privatekey > publickey
 ```
 
 Master node /etc/wireguard/wg0.conf
-```
+```text
 [Interface]
 #SaveConfig = true
 Address = 192.168.1.1/24
@@ -79,7 +79,7 @@ $IPT -D INPUT -i $IN_FACE -p udp --dport $WG_PORT -j ACCEPT
 
 Worker1 node /etc/wireguard/wg0.conf
 
-```
+```text
 [Interface]
 PrivateKey = <WORKER1 NODE PRIVATE KEY>
 Address = 192.168.1.2/24
