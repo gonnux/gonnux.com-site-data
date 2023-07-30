@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gonnux-site.fullname" . }}-deployment
+  labels:
+    deploy: site
+  {{- include "gonnux-site.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      pod: site
+    {{- include "gonnux-site.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        pod: site
+      {{- include "gonnux-site.labels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: site
+        image: gonnux/site
+        ports:
+        - containerPort: 3000

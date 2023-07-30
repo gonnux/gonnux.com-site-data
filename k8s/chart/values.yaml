@@ -1,0 +1,7 @@
+kubernetesClusterDomain: cluster.local
+deployment:
+  replicas: 3
+clusterIssuer:
+  email: binkoni@gonnux.com
+ingress:
+  host: gonnux.com

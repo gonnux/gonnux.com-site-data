@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ include "gonnux-site.fullname" . }}-cluster-issuer
+  labels:
+  {{- include "gonnux-site.labels" . | nindent 4 }}
+spec:
+  acme:
+    email: {{ .Values.clusterIssuer.email }}
+    privateKeySecretRef:
+      name: {{ include "gonnux-site.fullname" . }}-acme-secret
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: traefik

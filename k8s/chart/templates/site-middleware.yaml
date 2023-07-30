@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "gonnux-site.fullname" . }}-middleware
+  labels:
+  {{- include "gonnux-site.labels" . | nindent 4 }}
+spec:
+  redirectScheme:
+    permanent: true
+    scheme: https

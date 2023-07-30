@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gonnux-site.fullname" . }}-service
+  labels:
+    svc: site
+  {{- include "gonnux-site.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  selector:
+    pod: site
+  {{- include "gonnux-site.selectorLabels" . | nindent 4 }}
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
