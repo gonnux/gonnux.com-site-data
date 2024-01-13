@@ -6,21 +6,22 @@ metadata:
   {{- include "gonnux-site.labels" . | nindent 4 }}
   annotations:
     cert-manager.io/cluster-issuer: {{ include "gonnux-site.fullname" . }}-cluster-issuer
-    kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-{{ include "gonnux-site.fullname" . }}-middleware@kubernetescrd
 spec:
+  ingressClassName: traefik
   rules:
   - host: {{ .Values.ingress.host }}
     http:
       paths:
-      - backend:
+      - path: /
+        pathType: Prefix
+        backend:
           service:
             name: {{ include "gonnux-site.fullname" . }}-service
             port:
               number: 80
-        path: /
-        pathType: Prefix
   tls:
-  - hosts:
+  - secretName: {{ include "gonnux-site.fullname" . }}-tls-secret
+    hosts:
     - {{ .Values.ingress.host }}
-    secretName: {{ include "gonnux-site.fullname" . }}-tls-secret
+    
